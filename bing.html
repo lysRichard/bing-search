@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script type="text/javascript" src="jquery-1.12.1.js"></script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		li{list-style: none;}
+		a{text-decoration: none;}
+		body{
+			background: #333;
+			border:1px solid #333;
+			border-radius: 20px;
+		}
+	.bg{
+		position: relative;
+		background: url(images/river.jpg) no-repeat;
+		width: 1228px;
+		height: 690px;
+		margin: 0 auto;
+
+	}
+	.search_box{
+		position: absolute;
+		top: 150px;
+		left: 100px
+	}
+	.logo{
+		float: left;
+		background: url(images/logo.png) no-repeat;
+		width: 107px;
+		height: 53px;
+	}
+	.search_box form{
+		float: left;
+		margin: 15px 0 0 20px;
+		
+	}
+	.search_text{
+		float: left;
+		height: 30px;
+		line-height: 30px;
+		width: 350px;
+		border:0;
+		outline: 0;
+	}
+	.search_button{
+		background: url(images/search-button.png);
+		height: 30px;
+		width: 30px;
+		float: left;
+		border:0;
+	}
+	.search_list{
+		width: 379px;
+		position: absolute;
+		top: 45px;
+		left: 127px;
+		background: #fff;
+		border:1px solid #999;
+		display: none;
+		color: #666
+	}
+	.search_list li{
+		padding: 3px;
+		font-size: 14px;
+		line-height: 25px;
+		height: 25px;
+	}
+	.search_list li:hover{
+		background: #e8e8e8;
+		text-decoration: underline;
+	}
+	</style>
+</head>
+<body>
+	<div class="bg">
+		<div class="search_box">
+			<div class="logo"></div>
+			<form action="https://cn.bing.com/search" method="get" target="_blank">
+				<input type="text" class="search_text" id="search_input">
+				<input type="submit" class="search_button" value="">
+			</form>
+			<div class="search_list" id="search_list">
+		 		<ul id="search_result">
+		 			<li>1</li>
+		 			<li>2</li>
+		 			<li>3</li>
+		 		</ul>
+		 	</div>
+		</div>
+	</div>	
+	<script type="text/javascript">
+		$('#search_input').bind('keyup',function(){
+			var txt=$('#search_text').val();
+			$.get('',function(d){
+				var result=d.AS.Result[0].Suggests;
+				var h="";
+				for(var i=0;i<d.length;i++){
+					h+="<li>"+d[i]+"</li>";
+				}
+				$('#search_result').html(h);
+				$('#search_list').css('display','block');
+			},'json')
+			
+		})
+		$(document).deligate('li','click',function(){
+			var keyword=$(this).text();
+			location.href='http://cn.bing.com/search?q='+keyword;
+		});
+		$(document).bind('click',function(){
+			$('#search_list').css('display','none')
+		})
+	</script>
+</body>
+</html>
